@@ -7,7 +7,7 @@ const TVChannelsPage = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://localhost:8001/channels-api.php')
+    fetch('/api/channels')
       .then(res => res.json())
       .then(data => {
         setChannels(Array.isArray(data) ? data : []);

@@ -85,7 +85,7 @@ const PlayerPage = () => {
         isTV: false
       });
     } else if (id) {
-      fetch('http://localhost:8001/channels-api.php')
+      fetch('/api/channels')
         .then(res => res.json())
         .then(data => {
           const channel = data.find((c: any) => c.id.toString() === id);

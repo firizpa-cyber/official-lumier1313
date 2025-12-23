@@ -10,7 +10,7 @@ const SportsPage = () => {
 
   useEffect(() => {
     // Find sports channels from the API
-    fetch('http://localhost:8001/channels-api.php')
+    fetch('/api/channels')
       .then(res => res.json())
       .then(data => {
         const sports = data.filter((c: any) =>
