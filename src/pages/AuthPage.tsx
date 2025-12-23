@@ -31,7 +31,7 @@ const AuthPage = () => {
 
     setIsRequesting(true);
     try {
-      const response = await fetch("http://localhost:8001/auth-api.php", {
+      const response = await fetch("/api/auth", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -75,7 +75,7 @@ const AuthPage = () => {
 
     setIsLoading(true);
     try {
-      const response = await fetch("http://localhost:8001/auth-api.php", {
+      const response = await fetch("/api/auth", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

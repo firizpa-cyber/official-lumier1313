@@ -157,7 +157,9 @@ class ProVideoPlayer {
                 const originalUrl = context.url;
 
                 if (!originalUrl.includes('localhost') && !originalUrl.includes('127.0.0.1') && !originalUrl.includes('proxy.php')) {
-                    context.url = 'http://localhost:8001/proxy.php?url=' + encodeURIComponent(originalUrl);
+                    // Используем относительный путь через Vite прокси для поддержки публичного доступа
+                    const proxyPath = '/api/proxy.php';
+                    context.url = proxyPath + '?url=' + encodeURIComponent(originalUrl);
                     console.log(`[Proxy] ${originalUrl} -> ${context.url}`);
                 }
 
@@ -193,7 +195,7 @@ class ProVideoPlayer {
             maxMaxBufferLength: 60,
             maxBufferSize: 100 * 1000 * 1000,
             backBufferLength: 30,
-            maxBufferHole: 0.5,
+            maxBufferHole: 2.5, // Увеличено для стабильности
             highBufferWatchdogPeriod: 2,
 
             // ПЛАВНОЕ ПЕРЕКЛЮЧЕНИЕ КАЧЕСТВА
@@ -238,12 +240,12 @@ class ProVideoPlayer {
             // SEEK И ПЕРЕМОТКА
             seekHoleNudgeDuration: 0.1,
             maxSeekHole: 2,
-            nudgeOffset: 0.1,
-            nudgeMaxRetry: 3,
+            nudgeOffset: 0.5, // Увеличено
+            nudgeMaxRetry: 5,
 
             // FPS
             maxFragLookUpTolerance: 0.25,
-            maxAudioFramesDrift: 1,
+            maxAudioFramesDrift: 5, // Увеличено для синхронизации аудио
 
             // ПРОКСИ
             loader: ProxyLoader
@@ -439,14 +441,18 @@ class ProVideoPlayer {
 
     setQuality(index) {
         if (this.hls) {
-            console.log('[Player] 🎬 Установка качества:', index);
-            this.hls.currentLevel = index;
+            console.log('[Player] 🎬 Установка качества (smooth):', index);
+            // Используем nextLevel вместо currentLevel для плавного переключения
+            // currentLevel вызывает немедленный сброс буфера (лаг)
+            // nextLevel переключает качество для следующего загружаемого сегмента
+            this.hls.nextLevel = index; 
         }
     }
 
     setAutoQuality() {
         if (this.hls) {
-            this.hls.currentLevel = -1;
+            console.log('[Player] 🎬 Установка Auto качества (smooth)');
+            this.hls.nextLevel = -1;
         }
     }
 
@@ -456,11 +462,16 @@ class ProVideoPlayer {
         console.log(`[Player] 🎵 Запрос на переключение аудио: ${idx}`);
 
         if (this.hls) {
-            if (this.hls.audioTracks && this.hls.audioTracks[idx]) {
+            if (!this.hls.audioTracks || this.hls.audioTracks.length === 0) {
+                console.warn('[Player] ⚠ Нет доступных аудио дорожек');
+                return;
+            }
+
+            if (idx >= 0 && idx < this.hls.audioTracks.length) {
+                console.log(`[Player] 🎵 Переключение аудио трека на индекс: ${idx}`);
                 this.hls.audioTrack = idx;
-                // Мы не эмитим здесь, так как слушаем AUDIO_TRACK_SWITCHED
             } else {
-                console.warn('[Player] ⚠ Аудио дорожка не найдена:', idx);
+                console.warn(`[Player] ⚠ Неверный индекс аудио: ${idx}. Доступно: 0-${this.hls.audioTracks.length - 1}`);
             }
         } else {
             console.warn('[Player] ⚠ HLS не активен для переключения аудио');
@@ -474,7 +485,7 @@ class ProVideoPlayer {
         if (this.hls) {
             // Индекс -1 означает выключение субтитров
             this.hls.subtitleTrack = idx;
-            // Мы не эмитим здесь, так как слушаем SUBTITLE_TRACK_SWITCH
+            console.log(`[Player] 📝 Субтитры переключены на: ${idx}`);
         } else {
             console.warn('[Player] ⚠ HLS не активен для переключения субтитров');
         }
