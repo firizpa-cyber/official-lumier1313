@@ -13,7 +13,7 @@ class PlayerFFmpeg {
         // Configuration
         this.config = {
             corePath: config.corePath || './lib/ffmpeg-core.js',
-            wasmPath: config.wasmPath || './lib/ffmpeg-core.wasm',
+            wasmPath: config.wasmPath || './lib/ffmpeg-core-engine.wasm',
             workerPath: config.workerPath || './lib/ffmpeg-core.worker.js',
             onProgress: config.onProgress || null,
             onLog: config.onLog || null,
