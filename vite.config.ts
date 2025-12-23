@@ -15,4 +15,16 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  publicDir: "public",
+  build: {
+    copyPublicDir: true,
+    rollupOptions: {
+      // Exclude api directory from build
+      input: ["./index.html"],
+    },
+  },
+  // Ensure api directory is not processed
+  optimizeDeps: {
+    exclude: ["api"]
+  }
 }));
