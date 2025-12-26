@@ -1,0 +1,714 @@
+/**
+ * Professional Video Player - Modern Minimalist Design
+ * Clean, Beautiful & Professional UI
+ */
+
+/* ================================================
+ * СОВРЕМЕННЫЕ CSS ПЕРЕМЕННЫЕ
+ * ================================================ */
+:root {
+    /* Основные цвета - Premium Look */
+    --player-primary: #3b82f6;
+    --player-primary-hover: #2563eb;
+    --player-accent: #8b5cf6;
+    --player-accent-light: #a78bfa;
+
+    /* Фон - Soft & Clean */
+    --player-bg-dark: #0a0a0f;
+    --player-bg-elevated: rgba(20, 20, 30, 0.85);
+    --player-bg-glass: rgba(255, 255, 255, 0.05);
+    --player-bg-controls: rgba(15, 15, 25, 0.75);
+
+    /* Текст - Modern Typography */
+    --player-text-primary: #ffffff;
+    --player-text-secondary: rgba(255, 255, 255, 0.7);
+    --player-text-tertiary: rgba(255, 255, 255, 0.5);
+
+    /* Shadows - Multi-layer Premium Shadows */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.15);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+    --shadow-glow: 0 0 20px rgba(59, 130, 246, 0.3);
+
+    /* Размеры - Optimized */
+    --player-button-size: 44px;
+    --player-button-padding: 10px;
+    --player-progress-height: 4px;
+    --player-scrubber-size: 14px;
+    --player-border-radius: 12px;
+    --player-border-radius-sm: 8px;
+
+    /* Transitions - Smooth & Premium */
+    --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-spring: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ================================================
+ * КОНТЕЙНЕР ПЛЕЕРА - Modern & Clean
+ * ================================================ */
+.video-player-container {
+    position: relative;
+    width: 100%;
+    background: var(--player-bg-dark);
+    font-family: 'Roboto', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--player-text-primary);
+    overflow: hidden;
+    border-radius: var(--player-border-radius);
+    box-shadow: var(--shadow-xl);
+    user-select: none;
+    -webkit-user-select: none;
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.video-player-container:hover {
+    box-shadow: var(--shadow-xl), 0 0 40px rgba(59, 130, 246, 0.15);
+}
+
+/* Aspect ratio */
+.video-player-container::before {
+    content: '';
+    display: block;
+    padding-top: 56.25%;
+}
+
+.video-player-container video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* ================================================
+ * OVERLAY CONTROLS - Glass & Modern
+ * ================================================ */
+.player-controls-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity var(--transition-base);
+    pointer-events: none;
+}
+
+.video-player-container:hover .player-controls-overlay,
+.video-player-container.playing .player-controls-overlay.visible,
+.video-player-container.paused .player-controls-overlay {
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* Soft Gradients - Elegant & Minimal */
+.player-controls-overlay::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: linear-gradient(to bottom,
+            rgba(0, 0, 0, 0.5) 0%,
+            rgba(0, 0, 0, 0.3) 50%,
+            transparent 100%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.player-controls-overlay::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 160px;
+    background: linear-gradient(to top,
+            rgba(10, 10, 15, 0.9) 0%,
+            rgba(10, 10, 15, 0.6) 60%,
+            transparent 100%);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* ================================================
+ * CENTER PLAY BUTTON - Beautiful & Modern
+ * ================================================ */
+.player-center-controls {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5;
+    pointer-events: all;
+}
+
+.player-big-play-btn {
+    width: 72px;
+    height: 72px;
+    background: var(--player-bg-glass);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    color: var(--player-text-primary);
+    font-size: 32px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-base);
+    padding: 0;
+    padding-left: 4px;
+    box-shadow: var(--shadow-lg);
+}
+
+.player-big-play-btn:hover {
+    background: var(--player-primary);
+    transform: scale(1.1);
+    box-shadow: var(--shadow-glow), var(--shadow-xl);
+    border-color: transparent;
+}
+
+.player-big-play-btn:active {
+    transform: scale(0.95);
+}
+
+.playing .player-big-play-btn {
+    display: none;
+}
+
+/* ================================================
+ * TOP BAR - Clean & Minimal
+ * ================================================ */
+.player-top-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    z-index: 10;
+    pointer-events: all;
+}
+
+.player-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--player-text-primary);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 12px;
+    letter-spacing: 0.01em;
+}
+
+/* ================================================
+ * BOTTOM CONTROLS
+ * ================================================ */
+.player-bottom-controls {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    pointer-events: all;
+}
+
+/* ================================================
+ * PROGRESS BAR - Smooth & Modern
+ * ================================================ */
+.player-progress-container {
+    position: relative;
+    width: 100%;
+    height: var(--player-progress-height);
+    background: rgba(255, 255, 255, 0.15);
+    cursor: pointer;
+    margin-bottom: 8px;
+    transition: height var(--transition-fast);
+    border-radius: 2px;
+}
+
+.player-progress-container:hover {
+    height: 6px;
+}
+
+/* Buffered */
+.player-progress-buffer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.3);
+    width: 0%;
+    transform-origin: left;
+    border-radius: 2px;
+}
+
+/* Played - Gradient Progress */
+.player-progress-played {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: linear-gradient(90deg, var(--player-primary) 0%, var(--player-accent) 100%);
+    width: 0%;
+    transform-origin: left;
+    will-change: transform;
+    border-radius: 2px;
+    box-shadow: 0 0 8px rgba(59, 130, 246, 0.4);
+}
+
+/* Scrubber - Premium Look */
+.player-progress-scrubber {
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    width: var(--player-scrubber-size);
+    height: var(--player-scrubber-size);
+    background: var(--player-text-primary);
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform var(--transition-base);
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2), var(--shadow-md);
+    will-change: transform;
+}
+
+.player-progress-container:hover .player-progress-scrubber {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* Hover line */
+.player-progress-hover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.25);
+    width: 0;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+}
+
+.player-progress-container:hover .player-progress-hover {
+    opacity: 1;
+}
+
+/* Tooltip - Modern & Clean */
+.player-progress-tooltip {
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: 0;
+    transform: translateX(-50%);
+    background: rgba(20, 20, 30, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: var(--player-text-primary);
+    padding: 6px 10px;
+    border-radius: var(--player-border-radius-sm);
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--transition-fast);
+    box-shadow: var(--shadow-lg);
+}
+
+.player-progress-container:hover .player-progress-tooltip {
+    opacity: 1;
+}
+
+/* ================================================
+ * BUTTON CONTROLS - Modern & Elegant
+ * ================================================ */
+.player-controls-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 14px 12px;
+    gap: 4px;
+}
+
+.player-controls-left,
+.player-controls-right {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+/* Buttons - Clean Icons */
+.player-btn-icon {
+    width: var(--player-button-size);
+    height: var(--player-button-size);
+    background: transparent;
+    border: none;
+    border-radius: var(--player-border-radius-sm);
+    color: var(--player-text-primary);
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+    padding: var(--player-button-padding);
+    margin: 0;
+    position: relative;
+}
+
+.player-btn-icon:hover {
+    background: var(--player-bg-glass);
+    transform: scale(1.05);
+}
+
+.player-btn-icon:active {
+    transform: scale(0.95);
+}
+
+/* Text Buttons (Quality, Speed) */
+.player-btn-text {
+    width: auto;
+    padding: 0 12px;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    height: var(--player-button-size);
+    min-width: 44px;
+}
+
+/* ================================================
+ * VOLUME CONTROL - Smooth Interaction
+ * ================================================ */
+.player-volume-control {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    position: relative;
+}
+
+.player-volume-slider-container {
+    width: 0;
+    overflow: hidden;
+    transition: width var(--transition-base);
+}
+
+.player-volume-control:hover .player-volume-slider-container {
+    width: 60px;
+    margin-left: 4px;
+}
+
+.player-volume-slider {
+    width: 60px;
+    height: 4px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+}
+
+/* Track */
+.player-volume-slider::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+
+.player-volume-slider::-moz-range-track {
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+
+/* Thumb */
+.player-volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    background: var(--player-text-primary);
+    border-radius: 50%;
+    cursor: pointer;
+    margin-top: -5px;
+    transition: transform var(--transition-base);
+    box-shadow: var(--shadow-md);
+}
+
+.player-volume-slider::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    background: var(--player-text-primary);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: var(--shadow-md);
+}
+
+.player-volume-slider:hover::-webkit-slider-thumb {
+    transform: scale(1.15);
+}
+
+/* ================================================
+ * TIME DISPLAY - Clean Typography
+ * ================================================ */
+.player-time-display {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--player-text-primary);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 0 10px;
+    white-space: nowrap;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.02em;
+}
+
+.player-time-current,
+.player-time-duration {
+    font-feature-settings: "tnum";
+}
+
+/* ================================================
+ * DROPDOWN MENUS - Modern & Glass
+ * ================================================ */
+.player-settings-group {
+    position: relative;
+}
+
+.player-menu {
+    position: absolute;
+    bottom: calc(100% + 12px);
+    right: 0;
+    background: rgba(20, 20, 30, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--player-border-radius);
+    min-width: 220px;
+    max-width: 300px;
+    box-shadow: var(--shadow-xl);
+    opacity: 0;
+    transform: translateY(10px);
+    pointer-events: none;
+    transition: opacity var(--transition-base),
+        transform var(--transition-base);
+    z-index: 100;
+}
+
+.player-menu.active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
+}
+
+.player-menu-header {
+    padding: 14px 18px 10px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--player-text-secondary);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    letter-spacing: 0.3px;
+}
+
+.player-menu-items {
+    padding: 8px 0;
+    max-height: 360px;
+    overflow-y: auto;
+}
+
+/* Scrollbar - Modern & Minimal */
+.player-menu-items::-webkit-scrollbar {
+    width: 8px;
+}
+
+.player-menu-items::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.player-menu-items::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+}
+
+.player-menu-items::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.player-menu-item {
+    padding: 12px 18px;
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--player-text-primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background var(--transition-fast);
+}
+
+.player-menu-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.player-menu-item[data-active="true"] {
+    background: rgba(59, 130, 246, 0.15);
+    font-weight: 500;
+    color: var(--player-primary);
+}
+
+.player-menu-item[data-active="true"]::after {
+    content: '✓';
+    color: var(--player-primary);
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* ================================================
+ * LOADING SPINNER - Modern Animation
+ * ================================================ */
+.player-loading-spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+    z-index: 20;
+}
+
+.player-loading-spinner.active {
+    display: flex;
+}
+
+.player-spinner {
+    width: 48px;
+    height: 48px;
+    border: 4px solid rgba(255, 255, 255, 0.1);
+    border-top-color: var(--player-primary);
+    border-radius: 50%;
+    animation: spinner-spin 0.7s linear infinite;
+}
+
+@keyframes spinner-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ================================================
+ * FULLSCREEN MODE
+ * ================================================ */
+.video-player-container:fullscreen {
+    border-radius: 0;
+}
+
+.video-player-container:fullscreen .player-bottom-controls {
+    padding-bottom: 20px;
+}
+
+.video-player-container:fullscreen .player-controls-row {
+    padding: 0 20px 16px;
+}
+
+/* ================================================
+ * STATES & VARIATIONS
+ * ================================================ */
+.video-player-container.playing .player-center-controls {
+    display: none;
+}
+
+.video-player-container.paused .player-controls-overlay {
+    opacity: 1;
+}
+
+/* ================================================
+ * RESPONSIVE DESIGN
+ * ================================================ */
+@media (max-width: 768px) {
+    :root {
+        --player-button-size: 48px;
+        --player-progress-height: 5px;
+    }
+
+    .player-time-display {
+        font-size: 12px;
+    }
+
+    .player-volume-control {
+        display: none;
+    }
+
+    .player-btn-text {
+        font-size: 12px;
+        padding: 0 10px;
+    }
+
+    .player-big-play-btn {
+        width: 64px;
+        height: 64px;
+        font-size: 28px;
+    }
+}
+
+/* ================================================
+ * PERFORMANCE OPTIMIZATIONS
+ * ================================================ */
+.player-btn-icon,
+.player-menu,
+.player-progress-container {
+    will-change: auto;
+}
+
+/* Prevent text selection */
+.player-controls-overlay * {
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Accessibility - Focus States */
+.player-btn-icon:focus-visible {
+    outline: 2px solid var(--player-primary);
+    outline-offset: 3px;
+}
+
+.player-progress-container:focus-visible {
+    outline: 2px solid var(--player-primary);
+    outline-offset: 3px;
+}
+
+/* ================================================
+ * MICRO-ANIMATIONS - Premium Feel
+ * ================================================ */
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.player-btn-icon.loading {
+    animation: pulse 1.5s ease-in-out infinite;
+}

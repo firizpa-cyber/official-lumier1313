@@ -1,0 +1,16 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/channels",
+      "destination": "/api/channels"
+    },
+    {
+      "source": "/api/auth",
+      "destination": "/api/auth"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}

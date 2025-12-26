@@ -1,0 +1,195 @@
+/* ================================================
+ * FPS ОПТИМИЗАЦИИ ДЛЯ МАКСИМАЛЬНОЙ ПРОИЗВОДИТЕЛЬНОСТИ
+ * Добавьте эти стили к player.css
+ * ================================================ */
+
+/* GPU-ускорение для прогресс-бара */
+.player-progress-played,
+.player-progress-scrubber {
+    /* will-change сообщает браузеру что элемент будет анимироваться */
+    will-change: transform;
+
+    /* Создание композитного слоя для GPU обработки */
+    transform: translateZ(0);
+    transform-origin: left center;
+
+    /* Аппаратное ускорение */
+    backface-visibility: hidden;
+    perspective: 1000px;
+
+    /* Плавная анимация через GPU */
+    transition: transform 0.1s linear;
+}
+
+/* Оптимизация для видео элемента */
+.video-element {
+    /* GPU-ускорение для видео */
+    transform: translateZ(0);
+    will-change: transform;
+
+    /* Антиалиасинг для четкости */
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+
+    /* Аппаратное ускорение декодирования */
+    -webkit-transform: translate3d(0, 0, 0);
+}
+
+/* Оптимизация для контейнера плеера */
+.video-player-container {
+    /* Изоляция композитного слоя */
+    isolation: isolate;
+
+    /* GPU-ускорение */
+    transform: translateZ(0);
+    will-change: transform;
+
+    /* Оптимизация рендеринга */
+    contain: layout style paint;
+}
+
+/* Оптимизация для элементов управления */
+.player-controls-overlay {
+    /* GPU-ускорение для оверлея */
+    transform: translateZ(0);
+    will-change: opacity, transform;
+
+    /* Плавные переходы opacity через GPU */
+    transition: opacity 0.3s ease;
+}
+
+/* Оптимизация для кнопок */
+.player-btn-icon,
+.player-big-play-btn {
+    /* GPU-ускорение для ховер эффектов */
+    will-change: transform;
+    transform: translateZ(0);
+
+    /* Плавная трансформация */
+    transition: transform 0.2s ease;
+}
+
+.player-btn-icon:hover,
+.player-big-play-btn:hover {
+    /* Используем transform вместо margin/padding для плавности */
+    transform: translateZ(0) scale(1.1);
+}
+
+/* Оптимизация для меню */
+.player-menu {
+    /* GPU-ускорение для выпадающих меню */
+    will-change: opacity, transform;
+    transform: translateZ(0);
+
+    /* Плавное появление */
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.player-menu.active {
+    transform: translateZ(0) translateY(0);
+}
+
+/* Оптимизация для спиннера загрузки */
+.player-loading-spinner {
+    /* GPU-ускорение для анимации вращения */
+    will-change: transform;
+    transform: translateZ(0);
+}
+
+.player-spinner {
+    /* Плавная анимация вращения через GPU */
+    animation: spin 1s linear infinite;
+    will-change: transform;
+    transform: translateZ(0);
+}
+
+@keyframes spin {
+    from {
+        transform: translateZ(0) rotate(0deg);
+    }
+
+    to {
+        transform: translateZ(0) rotate(360deg);
+    }
+}
+
+/* Оптимизация буфер-бара */
+.player-progress-buffer {
+    /* GPU-ускорение */
+    will-change: transform;
+    transform: translateZ(0);
+    transform-origin: left center;
+
+    /* Плавное обновление */
+    transition: transform 0.3s ease;
+}
+
+/* Оптимизация для субтитров */
+video::cue {
+    /* GPU-ускорение для субтитров */
+    text-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
+    will-change: opacity;
+}
+
+/* Оптимизация для полноэкранного режима */
+.video-player-container.theater-mode,
+.video-player-container:fullscreen {
+    /* Максимальная производительность в fullscreen */
+    contain: strict;
+    will-change: auto;
+    /* Снимаем will-change в fullscreen для экономии памяти */
+}
+
+/* Оптимизация прокрутки для статистики */
+.stats-overlay {
+    /* Плавная прокрутка с GPU */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    will-change: scroll-position;
+}
+
+/* Отключение анимаций для пользователей с prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Дополнительная оптимизация для низкопроизводительных устройств */
+@media (max-width: 768px) {
+
+    /* Упрощаем эффекты на мобильных */
+    .player-btn-icon:hover,
+    .player-big-play-btn:hover {
+        transform: translateZ(0);
+        /* Без scale на мобильных */
+    }
+
+    /* Убираем blur эффекты на мобильных для производительности */
+    .top-controls-section {
+        backdrop-filter: none;
+    }
+}
+
+/* Критические стили для инициализации GPU слоев */
+.player-progress-played {
+    transform-origin: 0 0;
+    transform: scaleX(0);
+}
+
+.player-progress-scrubber {
+    transform: translateX(0);
+}
+
+/* Принудительное создание композитных слоев для критичных элементов */
+.player-bottom-controls,
+.player-top-bar,
+.player-center-controls {
+    transform: translateZ(0);
+    will-change: opacity;
+}

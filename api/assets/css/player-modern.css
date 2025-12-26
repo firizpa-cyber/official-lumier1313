@@ -1,0 +1,302 @@
+/**
+ * Premium Video Player Styles
+ * Дизайн в стиле Apple TV / Netflix
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+/* КОНТЕЙНЕР */
+.video-container {
+    position: relative;
+    width: 100%;
+    background: #000;
+    overflow: hidden;
+    font-family: 'Inter', sans-serif;
+    border-radius: 16px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+    aspect-ratio: 16/9;
+}
+
+.video-container video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* ГРАДИЕНТНЫЙ ОВЕРЛЕЙ (ЗАТЕМНЕНИЕ) */
+.player-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 180px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.5) 40%, rgba(0, 0, 0, 0) 100%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.video-container:hover .player-overlay,
+.video-container.paused .player-overlay {
+    opacity: 1;
+}
+
+/* ПАНЕЛЬ УПРАВЛЕНИЯ */
+.player-controls {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0 24px 24px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.video-container:hover .player-controls,
+.video-container.paused .player-controls {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ПРОГРЕСС БАР */
+.progress-container {
+    width: 100%;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    group: hover;
+}
+
+.progress-bg {
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+    position: relative;
+    transition: height 0.2s;
+}
+
+.progress-container:hover .progress-bg {
+    height: 6px;
+}
+
+.progress-filled {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background: #e50914;
+    /* Netflix Red */
+    border-radius: 2px;
+    box-shadow: 0 0 10px rgba(229, 9, 20, 0.5);
+}
+
+.progress-handle {
+    position: absolute;
+    top: 50%;
+    transform: translate(50%, -50%) scale(0);
+    right: 0;
+    width: 16px;
+    height: 16px;
+    background: #e50914;
+    border-radius: 50%;
+    transition: transform 0.2s;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.progress-container:hover .progress-handle {
+    transform: translate(50%, -50%) scale(1);
+}
+
+/* НИЖНИЙ РЯД КНОПОК */
+.controls-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.controls-left,
+.controls-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* КНОПКИ */
+.btn-icon {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.9);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+}
+
+.btn-icon:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    transform: scale(1.05);
+}
+
+.btn-icon svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.btn-play-large {
+    width: 48px;
+    height: 48px;
+    background: white;
+    color: black;
+    border-radius: 50%;
+    margin: 0 8px;
+}
+
+.btn-play-large:hover {
+    background: #f0f0f0;
+    transform: scale(1.1);
+}
+
+.btn-play-large svg {
+    width: 20px;
+    height: 20px;
+    fill: black;
+    margin-left: 2px;
+    /* Visual correction */
+}
+
+/* ТЕКСТОВЫЕ КНОПКИ (Качество, Аудио...) */
+.btn-text {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.9);
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-text:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    backdrop-filter: blur(5px);
+}
+
+.btn-text svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+}
+
+/* ВРЕМЯ */
+.time-display {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 13px;
+    font-weight: 500;
+    margin-left: 12px;
+    font-variant-numeric: tabular-nums;
+}
+
+/* ВЫПАДАЮЩИЕ МЕНЮ (СТЕКЛОМОРФИЗМ) */
+.player-menu {
+    position: absolute;
+    bottom: 80px;
+    right: 24px;
+    width: 280px;
+    background: rgba(15, 15, 15, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 8px 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px) scale(0.95);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 100;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.player-menu.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+.menu-header {
+    padding: 12px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 8px;
+}
+
+.menu-title {
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.menu-item {
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.menu-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.menu-item.active {
+    color: #e50914;
+    /* Активный цвет */
+}
+
+.menu-item.active .checkmark {
+    opacity: 1;
+}
+
+.checkmark {
+    opacity: 0;
+    color: #e50914;
+    font-weight: bold;
+}
+
+/* АДАПТИВНОСТЬ */
+@media (max-width: 768px) {
+    .btn-text span {
+        display: none;
+    }
+
+    .btn-text {
+        padding: 8px;
+    }
+
+    .time-display {
+        display: none;
+    }
+}
