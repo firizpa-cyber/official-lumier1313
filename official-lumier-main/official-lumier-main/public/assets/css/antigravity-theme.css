@@ -1,0 +1,470 @@
+/**
+ * Antigravity.google Inspired Theme
+ * Светлая минималистичная тема с анимированным фоном
+ */
+
+/* ================================================
+ * ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ (Antigravity Color Palette)
+ * ================================================ */
+:root {
+    /* Основные цвета (светлая тема) */
+    --ag-bg-primary: #f8f9fa;
+    --ag-bg-secondary: #ffffff;
+    --ag-bg-tertiary: #f1f3f4;
+
+    /* Акцентные цвета */
+    --ag-accent-blue: #1a73e8;
+    --ag-accent-blue-hover: #1557b0;
+    --ag-accent-light: #e8f0fe;
+
+    /* Текст */
+    --ag-text-primary: #202124;
+    --ag-text-secondary: #5f6368;
+    --ag-text-tertiary: #80868b;
+
+    /* Границы и разделители */
+    --ag-border-light: #dadce0;
+    --ag-border-medium: #c4c7c5;
+
+    /* Тени (мягкие, минималистичные) */
+    --ag-shadow-sm: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+    --ag-shadow-md: 0 1px 3px 0 rgba(60, 64, 67, 0.3), 0 4px 8px 3px rgba(60, 64, 67, 0.15);
+    --ag-shadow-lg: 0 2px 6px 2px rgba(60, 64, 67, 0.15), 0 8px 12px 6px rgba(60, 64, 67, 0.15);
+
+    /* Градиенты */
+    --ag-gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --ag-gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    --ag-gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    --ag-gradient-light: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
+
+    /* Шрифты */
+    --ag-font-primary: 'Google Sans', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --ag-font-display: 'Google Sans Display', 'Product Sans', sans-serif;
+
+    /* Размеры */
+    --ag-radius-sm: 8px;
+    --ag-radius-md: 12px;
+    --ag-radius-lg: 16px;
+    --ag-radius-xl: 24px;
+
+    /* Transitions */
+    --ag-transition-fast: 150ms cubic-bezier(0.4, 0.0, 0.2, 1);
+    --ag-transition-base: 250ms cubic-bezier(0.4, 0.0, 0.2, 1);
+    --ag-transition-slow: 400ms cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+/* ================================================
+ * ГЛОБАЛЬНЫЕ СТИЛИ
+ * ================================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--ag-font-primary);
+    background: var(--ag-bg-primary);
+    color: var(--ag-text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* ================================================
+ * АНИМИРОВАННЫЙ ФОН (Antigravity Style)
+ * ================================================ */
+.antigravity-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e8eaed 50%, #f8f9fa 100%);
+}
+
+/* Анимированные градиентные круги */
+.antigravity-background::before,
+.antigravity-background::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.3;
+    animation: float 20s ease-in-out infinite;
+}
+
+.antigravity-background::before {
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, #4285f4 0%, transparent 70%);
+    top: -200px;
+    left: -200px;
+    animation-delay: -10s;
+}
+
+.antigravity-background::after {
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle, #ea4335 0%, transparent 70%);
+    bottom: -300px;
+    right: -300px;
+    animation-delay: -5s;
+}
+
+/* Дополнительные плавающие элементы */
+.ag-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.2;
+    pointer-events: none;
+}
+
+.ag-orb-1 {
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, #fbbc04 0%, transparent 70%);
+    top: 20%;
+    right: 10%;
+    animation: float-alt 25s ease-in-out infinite;
+}
+
+.ag-orb-2 {
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, #34a853 0%, transparent 70%);
+    bottom: 30%;
+    left: 15%;
+    animation: float 30s ease-in-out infinite reverse;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    33% {
+        transform: translate(50px, -50px) scale(1.1);
+    }
+
+    66% {
+        transform: translate(-30px, 30px) scale(0.9);
+    }
+}
+
+@keyframes float-alt {
+
+    0%,
+    100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+
+    50% {
+        transform: translate(-100px, 50px) rotate(180deg);
+    }
+}
+
+/* ================================================
+ * ГЛАВНЫЙ КОНТЕЙНЕР
+ * ================================================ */
+.ag-main-container {
+    position: relative;
+    z-index: 1;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 24px;
+}
+
+/* ================================================
+ * КАРТОЧКИ (Material Design 3)
+ * ================================================ */
+.ag-card {
+    background: var(--ag-bg-secondary);
+    border-radius: var(--ag-radius-lg);
+    padding: 24px;
+    box-shadow: var(--ag-shadow-sm);
+    transition: box-shadow var(--ag-transition-base);
+    border: 1px solid var(--ag-border-light);
+}
+
+.ag-card:hover {
+    box-shadow: var(--ag-shadow-md);
+}
+
+.ag-card-header {
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--ag-border-light);
+}
+
+.ag-card-title {
+    font-family: var(--ag-font-display);
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--ag-text-primary);
+    margin-bottom: 8px;
+}
+
+.ag-card-subtitle {
+    font-size: 0.875rem;
+    color: var(--ag-text-secondary);
+}
+
+/* ================================================
+ * КНОПКИ - Modern & Premium
+ * ================================================ */
+.ag-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 28px;
+    border: none;
+    border-radius: var(--ag-radius-xl);
+    font-family: var(--ag-font-primary);
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    transition: all var(--ag-transition-base);
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--ag-shadow-sm);
+}
+
+.ag-button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--ag-shadow-lg);
+}
+
+.ag-button:active {
+    transform: translateY(0);
+    box-shadow: var(--ag-shadow-sm);
+}
+
+.ag-button-primary {
+    background: linear-gradient(135deg, #1a73e8 0%, #1557b0 100%);
+    color: white;
+}
+
+.ag-button-primary:hover {
+    background: linear-gradient(135deg, #1557b0 0%, #0d47a1 100%);
+    box-shadow: 0 8px 24px rgba(26, 115, 232, 0.4);
+}
+
+.ag-button-secondary {
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--ag-text-primary);
+    border: 1px solid var(--ag-border-light);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.ag-button-secondary:hover {
+    background: rgba(255, 255, 255, 1);
+    border-color: var(--ag-border-medium);
+}
+
+/* Ripple эффект - улучшенный */
+.ag-button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    transform: translate(-50%, -50%);
+    transition: width 0.5s ease-out, height 0.5s ease-out;
+    pointer-events: none;
+}
+
+.ag-button:active::before {
+    width: 400px;
+    height: 400px;
+}
+
+/* Icon в кнопке */
+.ag-button .material-icons-round {
+    transition: transform var(--ag-transition-fast);
+}
+
+.ag-button:hover .material-icons-round {
+    transform: scale(1.1);
+}
+
+/* ================================================
+ * ТИПОГРАФИЯ
+ * ================================================ */
+.ag-heading-1 {
+    font-family: var(--ag-font-display);
+    font-size: 3rem;
+    font-weight: 400;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+    color: var(--ag-text-primary);
+}
+
+.ag-heading-2 {
+    font-family: var(--ag-font-display);
+    font-size: 2rem;
+    font-weight: 400;
+    line-height: 1.3;
+    color: var(--ag-text-primary);
+}
+
+.ag-body-1 {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--ag-text-secondary);
+}
+
+.ag-caption {
+    font-size: 0.75rem;
+    color: var(--ag-text-tertiary);
+    letter-spacing: 0.4px;
+}
+
+/* ================================================
+ * UTILITIES
+ * ================================================ */
+.ag-text-center {
+    text-align: center;
+}
+
+.ag-mt-1 {
+    margin-top: 8px;
+}
+
+.ag-mt-2 {
+    margin-top: 16px;
+}
+
+.ag-mt-3 {
+    margin-top: 24px;
+}
+
+.ag-mb-1 {
+    margin-bottom: 8px;
+}
+
+.ag-mb-2 {
+    margin-bottom: 16px;
+}
+
+.ag-mb-3 {
+    margin-bottom: 24px;
+}
+
+/* ================================================
+ * АДАПТИВНОСТЬ
+ * ================================================ */
+@media (max-width: 768px) {
+    .ag-main-container {
+        padding: 16px;
+    }
+
+    .ag-card {
+        padding: 16px;
+    }
+
+    .ag-heading-1 {
+        font-size: 2rem;
+    }
+
+    .ag-heading-2 {
+        font-size: 1.5rem;
+    }
+
+    .antigravity-background::before,
+    .antigravity-background::after {
+        filter: blur(60px);
+        opacity: 0.2;
+    }
+}
+
+/* ================================================
+ * ЗАГРУЗКА ШРИФТОВ GOOGLE SANS
+ * ================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+/* ================================================
+ * ПАНЕЛЬ ОШИБОК ПЛЕЕРА
+ * ================================================ */
+.player-error-panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    animation: fadeIn 0.3s ease;
+}
+
+.player-error-panel.active {
+    display: flex;
+}
+
+.player-error-content {
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.player-error-panel .material-icons-round {
+    font-size: 64px;
+    color: #ea4335; /* Google Red */
+    margin-bottom: 8px;
+}
+
+.player-error-text {
+    font-size: 1.1rem;
+    font-weight: 500;
+    line-height: 1.5;
+    margin-bottom: 12px;
+}
+
+.player-retry-btn {
+    background: white;
+    color: black;
+    border: none;
+    padding: 12px 32px;
+    border-radius: 30px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+}
+
+.player-retry-btn:hover {
+    background: #f0f0f0;
+    transform: scale(1.05);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
